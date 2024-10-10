@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MemoriaVivaApp</string>
+    <string name="navigation_drawer_open">Abrir la navegación</string>
+    <string name="navigation_drawer_close">Cerrar la navegación</string>
+    <string name="nav_header_title">Nombre</string>
+    <string name="nav_header_subtitle">Edad</string>
+    <string name="nav_header_desc">Cabecera de navegación</string>
+    <string name="action_settings">Configuración</string>
+
+    <string name="menu_cuenta">Mi cuenta</string>
+    <string name="menu_notas">Mis notas</string>
+    <string name="menu_familia">Mi familia</string>
+    <string name="menu_contactos">Mis contactos</string>
+    <string name="menu_notificaciones">Conf. Notificaciones</string>">
+    <string name="menu_med_usados">Medicamentos usados</string>">
+</resources>
