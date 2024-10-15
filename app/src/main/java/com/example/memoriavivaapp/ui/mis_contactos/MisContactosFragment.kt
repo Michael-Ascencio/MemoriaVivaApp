@@ -1,38 +1,94 @@
 package com.example.memoriavivaapp.ui.mis_contactos
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.memoriavivaapp.databinding.FragmentMisContactosBinding
+import com.example.memoriavivaapp.R
+import androidx.navigation.fragment.findNavController
 
 class MisContactosFragment : Fragment() {
 
     private var _binding: FragmentMisContactosBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var contactoDatabaseHelper: ContactoDatabaseHelper
+    private lateinit var viewModel: MisContactosViewModel
+    private lateinit var adapter: ContactoAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val misNotasViewModel =
-            ViewModelProvider(this).get(MisContactosViewModel::class.java)
-
         _binding = FragmentMisContactosBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val textView: TextView = binding.textContacto
-        misNotasViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        // Inicializar el helper de base de datos
+        contactoDatabaseHelper = ContactoDatabaseHelper(requireContext())
+
+        // Inicializar el ViewModel
+        viewModel = ViewModelProvider(this, MisContactosViewModelFactory(requireContext())).get(MisContactosViewModel::class.java)
+
+        // Mostrar el mensaje de instrucción
+        binding.textInstruccion.text = viewModel.mensajeInstruccion
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.recyclerViewContactos.layoutManager = LinearLayoutManager(context) // Configurar el RecyclerView con un LinearLayoutManager
+
+        // Obtener la lista de contactos desde la base de datos
+        val contactos = obtenerContactos()
+
+        // Mostrar mensaje si no hay contactos
+        if (contactos.isEmpty()) {
+            binding.textNoContactos.visibility = View.VISIBLE
+            binding.recyclerViewContactos.visibility = View.GONE
+        } else {
+            binding.textNoContactos.visibility = View.GONE
+            binding.recyclerViewContactos.visibility = View.VISIBLE
+
+            adapter = ContactoAdapter(contactos) { contacto -> // Configurar el adaptador con la lista de contactos y la acción de llamada
+                realizarLlamada(contacto.telefono)
+            }
+
+            binding.recyclerViewContactos.adapter = adapter
         }
-        return root
+
+        // Configurar el botón flotante para agregar contactos
+        binding.fabAgregarContacto.setOnClickListener {
+            findNavController().navigate(R.id.agregarContactoFragment)
+        }
+    }
+
+    // Método para obtener los contactos desde la base de datos SQLite
+    private fun obtenerContactos(): List<Contacto> {
+        val db = contactoDatabaseHelper.readableDatabase
+        val cursor = db.query(
+            ContactoDatabaseHelper.TABLE_NAME, null, null, null, null, null, null
+        )
+        val contactos = mutableListOf<Contacto>()
+        while (cursor.moveToNext()) {
+            val id = cursor.getLong(cursor.getColumnIndexOrThrow(ContactoDatabaseHelper.COLUMN_ID))
+            val nombre = cursor.getString(cursor.getColumnIndexOrThrow(ContactoDatabaseHelper.COLUMN_NOMBRE))
+            val telefono = cursor.getString(cursor.getColumnIndexOrThrow(ContactoDatabaseHelper.COLUMN_TELEFONO))
+            contactos.add(Contacto(id, nombre, telefono))
+        }
+        cursor.close()
+        return contactos
+    }
+
+    // Método para realizar una llamada telefónica
+    private fun realizarLlamada(numero: String) {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:$numero")
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

@@ -50,4 +50,10 @@
         android:label="Agregar Nota"
         tools:layout="@layout/fragment_agregar_nota" />
 
+    <fragment
+        android:id="@+id/agregarContactoFragment"
+        android:name="com.example.memoriavivaapp.ui.mis_contactos.AgregarContactoFragment"
+        android:label="Agregar Contacto"
+        tools:layout="@layout/fragment_agregar_contacto" />
+
 </navigation>
