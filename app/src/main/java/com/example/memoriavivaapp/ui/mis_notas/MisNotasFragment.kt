@@ -1,6 +1,5 @@
 package com.example.memoriavivaapp.ui.mis_notas
 
-import NotaAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,54 +8,47 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.memoriavivaapp.databinding.FragmentMisNotasBinding
-
-data class Nota(
-    val titulo: String,
-    val contenido: String
-)
+import androidx.navigation.fragment.findNavController
+import com.example.memoriavivaapp.R
 
 class MisNotasFragment : Fragment() {
 
     private var _binding: FragmentMisNotasBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var notaAdapter: NotaAdapter
-    private val listaNotas = mutableListOf<Nota>()
+    private lateinit var viewModel: MisNotasViewModel
+    private lateinit var adapter: NotaAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-
-        val misNotasViewModel =
-            ViewModelProvider(this).get(MisNotasViewModel::class.java)
-
         _binding = FragmentMisNotasBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        // Configurar RecyclerView
-        val recyclerView = binding.recyclerViewNotas
-        recyclerView.layoutManager = LinearLayoutManager(context)
-
-        notaAdapter = NotaAdapter(listaNotas) { nota ->
-            // Aquí manejas el clic en una nota
-            mostrarNota(nota)
-        }
-        recyclerView.adapter = notaAdapter
-
-        // Agregar notas de ejemplo
-        listaNotas.add(Nota("Nota 1", "Contenido de la nota 1"))
-        listaNotas.add(Nota("Nota 2", "Contenido de la nota 2"))
-
-        notaAdapter.notifyDataSetChanged()
-
-        return root
+        return binding.root
     }
 
-    private fun mostrarNota(nota: Nota) {
-        // Aquí navegas o muestras el contenido de la nota
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.recyclerViewNotas.layoutManager = LinearLayoutManager(context)
+
+        // Inicializa el adaptador con una lista vacía y un click listener
+        adapter = NotaAdapter(emptyList()) { nota: Nota ->
+
+        }
+
+        binding.recyclerViewNotas.adapter = adapter
+
+        // Observa las notas desde el ViewModel
+        viewModel = ViewModelProvider(this).get(MisNotasViewModel::class.java)
+        viewModel.notas.observe(viewLifecycleOwner) {
+            adapter.setNotas(it) // Actualiza el adaptador con las nuevas notas
+        }
+        viewModel.obtenerNotas()
+
+        // Navegar a crear una nueva nota al hacer clic en el botón
+        binding.fab.setOnClickListener {
+            findNavController().navigate(R.id.agregarNotaFragment)
+        }
     }
 
     override fun onDestroyView() {

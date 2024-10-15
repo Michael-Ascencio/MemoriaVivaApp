@@ -1,13 +1,31 @@
 package com.example.memoriavivaapp.ui.mis_notas
 
+import NotasSQLiteHelper
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class MisNotasViewModel : ViewModel() {
+class MisNotasViewModel(application: Application) : AndroidViewModel(application) {
+    private val dbHelper = NotasSQLiteHelper(application)
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "Este es el fragmento de mis notas"
+    private val _notas = MutableLiveData<List<Nota>>()
+    val notas: LiveData<List<Nota>> = _notas
+
+    fun obtenerNotas() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val notasFromDb = dbHelper.obtenerNotas()
+            _notas.postValue(notasFromDb)
+        }
     }
-    val text: LiveData<String> = _text
+
+    fun agregarNota(titulo: String, contenido: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            dbHelper.insertarNota(titulo, contenido)
+            obtenerNotas() // Actualiza la lista
+        }
+    }
 }

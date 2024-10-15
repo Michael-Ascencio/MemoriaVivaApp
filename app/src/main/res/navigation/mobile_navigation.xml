@@ -2,8 +2,17 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_notas">
+    app:startDestination="@id/nav_notas">
+
+    <fragment
+        android:id="@+id/nav_notas"
+        android:name="com.example.memoriavivaapp.ui.mis_notas.MisNotasFragment"
+        android:label="Notas"
+        tools:layout="@layout/fragment_mis_notas">
+        <action
+            android:id="@+id/action_misNotasFragment_to_agregarNotaFragment"
+            app:destination="@id/agregarNotaFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_cuenta"
@@ -12,29 +21,33 @@
         tools:layout="@layout/fragment_mi_cuenta" />
 
     <fragment
-        android:id="@+id/nav_notas"
-        android:name="com.example.memoriavivaapp.ui.mis_notas.MisNotasFragment"
-        android:label="@string/menu_notas"
-        tools:layout="@layout/fragment_mis_notas" />
-
-    <fragment
         android:id="@+id/nav_familia"
         android:name="com.example.memoriavivaapp.ui.mi_familia.MiFamiliaFragment"
         android:label="@string/menu_familia"
         tools:layout="@layout/fragment_mi_familia" />
+
     <fragment
         android:id="@+id/nav_contactos"
         android:name="com.example.memoriavivaapp.ui.mis_contactos.MisContactosFragment"
         android:label="@string/menu_contactos"
         tools:layout="@layout/fragment_mis_contactos" />
+
     <fragment
         android:id="@+id/nav_conf_notificaciones"
         android:name="com.example.memoriavivaapp.ui.conf_notificaciones.ConfNotificacionesFragment"
         android:label="@string/menu_notificaciones"
         tools:layout="@layout/fragment_conf_notificaciones" />
+
     <fragment
         android:id="@+id/nav_med_usados"
         android:name="com.example.memoriavivaapp.ui.medicamentos_usados.MedUsadosFragment"
         android:label="@string/menu_med_usados"
         tools:layout="@layout/fragment_med_usados" />
+
+    <fragment
+        android:id="@+id/agregarNotaFragment"
+        android:name="com.example.memoriavivaapp.ui.mis_notas.AgregarNotaFragment"
+        android:label="Agregar Nota"
+        tools:layout="@layout/fragment_agregar_nota" />
+
 </navigation>

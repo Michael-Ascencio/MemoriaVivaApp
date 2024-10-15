@@ -12,5 +12,6 @@
     <string name="menu_familia">Mi familia</string>
     <string name="menu_contactos">Mis contactos</string>
     <string name="menu_notificaciones">Conf. Notificaciones</string>">
-    <string name="menu_med_usados">Medicamentos usados</string>">
+    <string name="menu_med_usados">Medicamentos usados</string>
+    <string name="todo">TODO</string>">
 </resources>

@@ -1,14 +1,15 @@
+package com.example.memoriavivaapp.ui.mis_notas
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memoriavivaapp.R
-import com.example.memoriavivaapp.ui.mis_notas.Nota
 
 class NotaAdapter(
-    private val notas: List<Nota>,
-    private val onItemClick: (Nota) -> Unit
+    private var notas: List<Nota>, // Mantener como List<Nota>
+    private val onItemClick: (Nota) -> Unit // Solo mantener la acción de clic en el item
 ) : RecyclerView.Adapter<NotaAdapter.NotaViewHolder>() {
 
     inner class NotaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -19,7 +20,6 @@ class NotaAdapter(
             titulo.text = nota.titulo
             contenido.text = nota.contenido
 
-            // Configura el clic en cada nota
             itemView.setOnClickListener {
                 onItemClick(nota)
             }
@@ -37,4 +37,10 @@ class NotaAdapter(
     }
 
     override fun getItemCount(): Int = notas.size
+
+    // Método para actualizar la lista de notas
+    fun setNotas(newNotas: List<Nota>) {
+        notas = newNotas
+        notifyDataSetChanged() // Notificar al adaptador que los datos han cambiado
+    }
 }
