@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.memoriavivaapp.databinding.FragmentMisNotasBinding
 import androidx.navigation.fragment.findNavController
 import com.example.memoriavivaapp.R
+import android.app.AlertDialog
 
 class MisNotasFragment : Fragment() {
 
@@ -32,9 +33,21 @@ class MisNotasFragment : Fragment() {
         binding.recyclerViewNotas.layoutManager = LinearLayoutManager(context)
 
         // Inicializa el adaptador con una lista vacía y un click listener
-        adapter = NotaAdapter(emptyList()) { nota: Nota ->
-
-        }
+        adapter = NotaAdapter(emptyList(),
+            onEditClick = { nota ->
+                // Navegar al fragmento de edición y pasar los datos de la nota
+                val bundle = Bundle().apply {
+                    putInt("id", nota.id)
+                    putString("titulo", nota.titulo)
+                    putString("contenido", nota.contenido)
+                }
+                findNavController().navigate(R.id.editarNotaFragment, bundle)
+            },
+            onDeleteClick = { nota ->
+                // Muestra un diálogo de confirmación antes de eliminar la nota
+                showDeleteConfirmationDialog(nota)
+            }
+        )
 
         binding.recyclerViewNotas.adapter = adapter
 
@@ -49,6 +62,18 @@ class MisNotasFragment : Fragment() {
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.agregarNotaFragment)
         }
+    }
+
+    private fun showDeleteConfirmationDialog(nota: Nota) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("¿Estás seguro de que deseas eliminar esta nota?")
+            .setPositiveButton("Sí") { _, _ ->
+                viewModel.eliminarNota(nota.id) // Elimina la nota si el usuario confirma
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss() // Cierra el diálogo si el usuario cancela
+            }
+        builder.create().show()
     }
 
     override fun onDestroyView() {

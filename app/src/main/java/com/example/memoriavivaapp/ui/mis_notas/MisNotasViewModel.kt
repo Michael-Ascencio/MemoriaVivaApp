@@ -15,6 +15,7 @@ class MisNotasViewModel(application: Application) : AndroidViewModel(application
     private val _notas = MutableLiveData<List<Nota>>()
     val notas: LiveData<List<Nota>> = _notas
 
+    // Obtener todas las notas desde la base de datos
     fun obtenerNotas() {
         CoroutineScope(Dispatchers.IO).launch {
             val notasFromDb = dbHelper.obtenerNotas()
@@ -22,10 +23,27 @@ class MisNotasViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    // Agregar una nueva nota
     fun agregarNota(titulo: String, contenido: String) {
         CoroutineScope(Dispatchers.IO).launch {
             dbHelper.insertarNota(titulo, contenido)
-            obtenerNotas() // Actualiza la lista
+            obtenerNotas() // Actualiza la lista después de agregar
+        }
+    }
+
+    // Editar una nota existente
+    fun editarNota(id: Int, titulo: String, contenido: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            dbHelper.editarNota(id, titulo, contenido)
+            obtenerNotas() // Actualiza la lista después de editar
+        }
+    }
+
+    // Eliminar una nota
+    fun eliminarNota(id: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            dbHelper.eliminarNota(id)
+            obtenerNotas() // Actualiza la lista después de eliminar
         }
     }
 }

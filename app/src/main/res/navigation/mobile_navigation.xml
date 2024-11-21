@@ -56,4 +56,20 @@
         android:label="Agregar Contacto"
         tools:layout="@layout/fragment_agregar_contacto" />
 
+    <fragment
+        android:id="@+id/editarNotaFragment"
+        android:name="com.example.memoriavivaapp.ui.mis_notas.EditarNotaFragment"
+        android:label="Editar Nota">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="titulo"
+            app:argType="string" />
+        <argument
+            android:name="contenido"
+            app:argType="string" />
+    </fragment>
+
+
 </navigation>

@@ -12,16 +12,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.core.content.ContextCompat
-import com.example.memoriavivaapp.databinding.FragmentAgregarNotaBinding
+import com.example.memoriavivaapp.databinding.FragmentEditarNotaBinding
 import java.util.*
 
-class AgregarNotaFragment : Fragment() {
+class EditarNotaFragment : Fragment() {
 
-    private var _binding: FragmentAgregarNotaBinding? = null
+    private var _binding: FragmentEditarNotaBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: MisNotasViewModel
 
@@ -33,7 +33,7 @@ class AgregarNotaFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAgregarNotaBinding.inflate(inflater, container, false)
+        _binding = FragmentEditarNotaBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(MisNotasViewModel::class.java)
 
         // Registrar el lanzador para el reconocimiento de voz
@@ -70,24 +70,27 @@ class AgregarNotaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Guardar nota al hacer clic en el botón
-        binding.buttonGuardarNota.setOnClickListener {
-            val titulo = binding.editTextTitulo.text.toString()
-            val contenido = binding.editTextContenido.text.toString()
+        // Recuperar datos enviados desde el fragmento anterior
+        val id = arguments?.getInt("id") ?: 0
+        val titulo = arguments?.getString("titulo") ?: ""
+        val contenido = arguments?.getString("contenido") ?: ""
 
-            if (titulo.isNotBlank() && contenido.isNotBlank()) {
-                viewModel.agregarNota(titulo, contenido)
+        // Poner los datos actuales en los campos
+        binding.editTextTitulo.setText(titulo)
+        binding.editTextContenido.setText(contenido)
+
+        // Guardar los cambios al hacer clic en el botón
+        binding.buttonEditarNota.setOnClickListener {
+            val nuevoTitulo = binding.editTextTitulo.text.toString()
+            val nuevoContenido = binding.editTextContenido.text.toString()
+
+            if (nuevoTitulo.isNotBlank() && nuevoContenido.isNotBlank()) {
+                viewModel.editarNota(id, nuevoTitulo, nuevoContenido)
                 findNavController().navigateUp() // Volver al fragmento de las notas
             } else {
                 Toast.makeText(requireContext(), "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
             }
         }
-
-        // Configurar los botones de escucha
-//        binding.btnEscucharTitulo.setOnClickListener {
-//            isListeningToTitle = true
-//            checkAndRequestPermissions()
-//        }
 
         binding.btnEscucharContenido.setOnClickListener {
             isListeningToTitle = false

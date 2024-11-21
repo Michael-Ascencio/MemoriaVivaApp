@@ -30,6 +30,7 @@ class NotasSQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_N
         onCreate(db)
     }
 
+    // Insertar una nueva nota
     fun insertarNota(titulo: String, contenido: String): Long {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -39,6 +40,7 @@ class NotasSQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_N
         return db.insert(TABLE_NOTAS, null, values)
     }
 
+    // Obtener todas las notas
     fun obtenerNotas(): List<Nota> {
         val listaNotas: MutableList<Nota> = ArrayList()
         val query = "SELECT * FROM $TABLE_NOTAS ORDER BY $KEY_FECHA DESC"
@@ -58,5 +60,21 @@ class NotasSQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_N
         }
         cursor.close()
         return listaNotas
+    }
+
+    // Editar una nota existente
+    fun editarNota(id: Int, titulo: String, contenido: String): Int {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(KEY_TITULO, titulo)
+        values.put(KEY_CONTENIDO, contenido)
+        // No actualizamos la fecha para mantener la original
+        return db.update(TABLE_NOTAS, values, "$KEY_ID = ?", arrayOf(id.toString()))
+    }
+
+    // Eliminar una nota
+    fun eliminarNota(id: Int): Int {
+        val db = this.writableDatabase
+        return db.delete(TABLE_NOTAS, "$KEY_ID = ?", arrayOf(id.toString()))
     }
 }

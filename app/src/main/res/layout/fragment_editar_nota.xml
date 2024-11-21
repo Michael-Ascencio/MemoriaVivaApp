@@ -4,19 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.mis_notas.AgregarNotaFragment">
-
-    <!--    <Button
-            android:id="@+id/btnEscucharTitulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Escuchar Título"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextTitulo" />-->
-
-    <!--app:layout_constraintTop_toBottomOf="@id/btnEscucharTitulo"-->
+    tools:context=".ui.mis_notas.EditarNotaFragment">
 
     <EditText
         android:id="@+id/editTextTitulo"
@@ -24,7 +12,7 @@
         android:layout_height="53dp"
         android:layout_margin="16dp"
         android:layout_marginTop="44dp"
-        android:hint="Título"
+        android:hint="Editar Título"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,9 +24,9 @@
         android:layout_height="278dp"
         android:layout_margin="16dp"
         android:gravity="top"
-        android:hint="Contenido"
+        android:hint="Editar Contenido"
         android:minLines="5"
-        app:layout_constraintBottom_toTopOf="@id/buttonGuardarNota"
+        app:layout_constraintBottom_toTopOf="@id/buttonEditarNota"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.384"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,8 +37,8 @@
         android:id="@+id/btnEscucharContenido"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Escuchar Contenido"
-        app:layout_constraintBottom_toTopOf="@+id/buttonGuardarNota"
+        android:text="Escuchar Contenido editadp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonEditarNota"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,11 +46,11 @@
         app:layout_constraintVertical_bias="0.53" />
 
     <Button
-        android:id="@+id/buttonGuardarNota"
+        android:id="@+id/buttonEditarNota"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="128dp"
-        android:text="Guardar Nota"
+        android:text="Editar Nota"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
