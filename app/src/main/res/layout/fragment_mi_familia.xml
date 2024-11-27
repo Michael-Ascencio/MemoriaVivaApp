@@ -6,17 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".ui.mi_familia.MiFamiliaFragment">
 
+    <!-- Título o texto de la familia -->
     <TextView
         android:id="@+id/text_familia"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:text="Mi Familia"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewFamiliares"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- RecyclerView para mostrar los familiares -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewFamiliares"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/fabAgregarFamiliar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_familia" />
+
+    <!-- Floating Action Button (FAB) para agregar un nuevo familiar -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAgregarFamiliar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/family_restroom"
+        android:contentDescription="@string/add_familiar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

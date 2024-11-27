@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/nav_notas">
 
+    <!-- Fragmento de Notas -->
     <fragment
         android:id="@+id/nav_notas"
         android:name="com.example.memoriavivaapp.ui.mis_notas.MisNotasFragment"
@@ -14,48 +15,63 @@
             app:destination="@id/agregarNotaFragment" />
     </fragment>
 
+    <!-- Fragmento de Cuenta -->
     <fragment
         android:id="@+id/nav_cuenta"
         android:name="com.example.memoriavivaapp.ui.mi_cuenta.MiCuentaFragment"
         android:label="@string/menu_cuenta"
         tools:layout="@layout/fragment_mi_cuenta" />
 
+    <!-- Fragmento de Familia -->
     <fragment
         android:id="@+id/nav_familia"
         android:name="com.example.memoriavivaapp.ui.mi_familia.MiFamiliaFragment"
         android:label="@string/menu_familia"
-        tools:layout="@layout/fragment_mi_familia" />
+        tools:layout="@layout/fragment_mi_familia">
+        <!-- Acción hacia el fragmento Editar Familiar -->
+        <action
+            android:id="@+id/actionMiFamiliaFragmentToEditarFamiliarFragment"
+            app:destination="@id/editarFamiliarFragment" />
+        <!-- Acción hacia el fragmento Agregar Familiar -->
+        <action
+            android:id="@+id/actionMiFamiliaFragmentToAgregarFamiliarFragment"
+            app:destination="@id/agregarFamiliarFragment" />
+    </fragment>
 
+    <!-- Fragmento de Contactos -->
     <fragment
         android:id="@+id/nav_contactos"
         android:name="com.example.memoriavivaapp.ui.mis_contactos.MisContactosFragment"
         android:label="@string/menu_contactos"
-        tools:layout="@layout/fragment_mis_contactos" />
+        tools:layout="@layout/fragment_mis_contactos">
+        <!-- Acción hacia Editar Contacto -->
+        <action
+            android:id="@+id/action_misContactosFragment_to_editarContactoFragment"
+            app:destination="@id/editarContactoFragment" />
+    </fragment>
 
+    <!-- Fragmento de Configuración de Notificaciones -->
     <fragment
         android:id="@+id/nav_conf_notificaciones"
         android:name="com.example.memoriavivaapp.ui.conf_notificaciones.ConfNotificacionesFragment"
         android:label="@string/menu_notificaciones"
         tools:layout="@layout/fragment_conf_notificaciones" />
 
+    <!-- Fragmento de Medicamentos Usados -->
     <fragment
         android:id="@+id/nav_med_usados"
         android:name="com.example.memoriavivaapp.ui.medicamentos_usados.MedUsadosFragment"
         android:label="@string/menu_med_usados"
         tools:layout="@layout/fragment_med_usados" />
 
+    <!-- Fragmento Agregar Nota -->
     <fragment
         android:id="@+id/agregarNotaFragment"
         android:name="com.example.memoriavivaapp.ui.mis_notas.AgregarNotaFragment"
         android:label="Agregar Nota"
         tools:layout="@layout/fragment_agregar_nota" />
 
-    <fragment
-        android:id="@+id/agregarContactoFragment"
-        android:name="com.example.memoriavivaapp.ui.mis_contactos.AgregarContactoFragment"
-        android:label="Agregar Contacto"
-        tools:layout="@layout/fragment_agregar_contacto" />
-
+    <!-- Fragmento Editar Nota -->
     <fragment
         android:id="@+id/editarNotaFragment"
         android:name="com.example.memoriavivaapp.ui.mis_notas.EditarNotaFragment"
@@ -71,5 +87,55 @@
             app:argType="string" />
     </fragment>
 
+    <!-- Fragmento Agregar Familiar -->
+    <fragment
+        android:id="@+id/agregarFamiliarFragment"
+        android:name="com.example.memoriavivaapp.ui.mi_familia.AgregarFamiliarFragment"
+        android:label="Agregar Familiar"
+        tools:layout="@layout/fragment_agregar_familiar" />
+
+    <!-- Fragmento Editar Familiar -->
+    <fragment
+        android:id="@+id/editarFamiliarFragment"
+        android:name="com.example.memoriavivaapp.ui.mi_familia.EditarFamiliarFragment"
+        android:label="Editar Familiar"
+        tools:layout="@layout/fragment_editar_familiar">
+        <argument
+            android:name="id"
+            app:argType="long" />
+        <argument
+            android:name="nombre"
+            app:argType="string" />
+        <argument
+            android:name="parentesco"
+            app:argType="string" />
+        <argument
+            android:name="descripcion"
+            app:argType="string" />
+    </fragment>
+
+    <!-- Fragmento Agregar Contacto -->
+    <fragment
+        android:id="@+id/agregarContactoFragment"
+        android:name="com.example.memoriavivaapp.ui.mis_contactos.AgregarContactoFragment"
+        android:label="Agregar Contacto"
+        tools:layout="@layout/fragment_agregar_contacto" />
+
+    <!-- Fragmento Editar Contacto -->
+    <fragment
+        android:id="@+id/editarContactoFragment"
+        android:name="com.example.memoriavivaapp.ui.mis_contactos.EditarContactoFragment"
+        android:label="Editar Contacto"
+        tools:layout="@layout/fragment_editar_contacto">
+        <argument
+            android:name="id"
+            app:argType="long" />
+        <argument
+            android:name="nombre"
+            app:argType="string" />
+        <argument
+            android:name="telefono"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

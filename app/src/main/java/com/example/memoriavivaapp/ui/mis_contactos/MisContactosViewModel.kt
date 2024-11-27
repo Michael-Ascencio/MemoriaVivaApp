@@ -2,11 +2,9 @@ package com.example.memoriavivaapp.ui.mis_contactos
 
 import android.content.ContentValues
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class MisContactosViewModel(context1: Context) : ViewModel() {
+class MisContactosViewModel(context1: ContactoDatabaseHelper) : ViewModel() {
 
     private lateinit var contactoDatabaseHelper: ContactoDatabaseHelper
 
@@ -28,4 +26,31 @@ class MisContactosViewModel(context1: Context) : ViewModel() {
         db.insert(ContactoDatabaseHelper.TABLE_NAME, null, values)
         db.close() // Cerrar la base de datos después de la inserción
     }
+
+    fun actualizarContacto(id: Long, nombre: String, telefono: String) {
+        val db = contactoDatabaseHelper.writableDatabase
+        val values = ContentValues().apply {
+            put(ContactoDatabaseHelper.COLUMN_NOMBRE, nombre)
+            put(ContactoDatabaseHelper.COLUMN_TELEFONO, telefono)
+        }
+        db.update(
+            ContactoDatabaseHelper.TABLE_NAME,
+            values,
+            "${ContactoDatabaseHelper.COLUMN_ID} = ?",
+            arrayOf(id.toString())
+        )
+        db.close()
+    }
+
+
+    fun eliminarContacto(contactoId: Long) {
+        contactoDatabaseHelper.writableDatabase.use { db ->
+            db.delete(
+                ContactoDatabaseHelper.TABLE_NAME,
+                "${ContactoDatabaseHelper.COLUMN_ID} = ?",
+                arrayOf(contactoId.toString())
+            )
+        }
+    }
+
 }
